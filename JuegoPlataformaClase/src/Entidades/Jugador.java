@@ -2,11 +2,15 @@ package Entidades;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
+
 import JuegoBase.Panel;
-import java.awt.event.KeyListener;
+import Objetos.Bloke;
+import fisicas.Colisiones;
+
 
 
 public class Jugador extends Rectangle{
@@ -16,6 +20,9 @@ public class Jugador extends Rectangle{
 	//bounds
 	private double x,y;
 	private int width,height;
+	//velocidad de moviemento
+	
+	private double velocidadMovimiento= 2.5;
 	
 	//velocidad de salto
 	private double Vsalto=5;
@@ -30,29 +37,51 @@ public class Jugador extends Rectangle{
 	 this.width=width;
 	 this.height=height;
  }
- public void tick() {
-	 //System.out.println("tICKpLATER");
+ public void tick(Bloke b[]) {
+	
+	for(int i=0; i < b.length;i++) {
+		//colision Derecha
+		if(Colisiones.JugadorBloke(new Point((int)x,(int)y),b[i])==true){
+			izquierda=false;
+
+		}
+		//colision izquierda
+		if(Colisiones.JugadorBloke(new Point((int)x+(int)Bloke.getBloketamaño(),(int)y),b[i])==true){
+			derecha=false;
+		}
+		//colusuib arriba
+		if(Colisiones.JugadorBloke(new Point((int)x,(int)y+(int)Bloke.getBloketamaño()),b[i])==true){
+			abajo=false;
+		}
+		
+		//colision debajo
+		if(Colisiones.JugadorBloke(new Point((int)x,(int)y),b[i])==true){
+			arriba=false;
+			
+		}
+		
+	 }
 
 	 if(izquierda==true) {
-		 System.out.println("izquierda");
+		 //System.out.println("IZQUEIRDA");
 
-		 x--;
+		x= x - velocidadMovimiento;
 	 }
-	  if(derecha) {
-			 System.out.println("derecha");
+	  if(derecha==true) {
+			 //System.out.println("derecha");
 
-		 x++;
+		x= x + velocidadMovimiento;
 	  }
-	  if(abajo) {
+	  if(abajo==true) {
 		  y +=VAcaida;
 		   
 		  if(VAcaida<MaxVcaida) {
 			  VAcaida += .1;
 		  }
-		  System.out.println("abajo");
+		  //System.out.println("abajo");
 
 		 }
-	  if(arriba) {
+	  if(arriba==true) {
 		  y -= VAsalto;
 		  VAsalto -= .1;
 		  
@@ -61,30 +90,34 @@ public class Jugador extends Rectangle{
 			  arriba=false;
 			  abajo=true;
 		  }
-		  System.out.println("arriba");
+		  //System.out.println("arriba");
 		  }
-	  
+	derecha=false;
+	izquierda=false;
  }
  public void draw(Graphics g){
 	 g.setColor(Color.BLACK);
 	 g.fillRect((int)x, (int)y, width, height);
  }
- public void keyPressed(int j) {
-		System.out.println("pressed");
-		
+
+public void keyPressed(int j) {
+	System.out.println("pressed");
+	
 
 	 if(j== KeyEvent.VK_D) derecha=true;
 	 if(j== KeyEvent.VK_A) izquierda=true;
 	 if(j== KeyEvent.VK_S) abajo=true;
 	 if(j== KeyEvent.VK_W) arriba=true;
-	 
+}
+public void keyReleased(int j) {
+	System.out.println("released");
+	
+ if(j== KeyEvent.VK_D) derecha=false;
+ if(j== KeyEvent.VK_A) izquierda=false;
+ if(j== KeyEvent.VK_S) abajo=false;
+ if(j== KeyEvent.VK_W) arriba=false;
+	
+}
 
- }
- public void keyReleased(int j) {
-	 if(j== KeyEvent.VK_D) derecha=false;
-	 if(j== KeyEvent.VK_A) izquierda=false;
-	 if(j== KeyEvent.VK_S) abajo=false;
-	 if(j== KeyEvent.VK_W) arriba=false;
-
- }
+	
 }

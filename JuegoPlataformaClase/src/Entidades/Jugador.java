@@ -13,7 +13,7 @@ import fisicas.Colisiones;
 
 
 
-public class Jugador extends Rectangle{
+public class Jugador extends Rectangle {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean derecha , izquierda, arriba, abajo;
@@ -22,7 +22,7 @@ public class Jugador extends Rectangle{
 	private int width,height;
 	//velocidad de moviemento
 	
-	private double velocidadMovimiento= 2.5;
+	private double velocidadMovimiento= 1.5;
 	
 	//velocidad de salto
 	private double Vsalto=5;
@@ -38,10 +38,12 @@ public class Jugador extends Rectangle{
 	 this.height=height;
  }
  public void tick(Bloke b[]) {
+	 System.out.println(abajo);
+
 	
 	for(int i=0; i < b.length;i++) {
 		//colision Derecha
-		if(Colisiones.JugadorBloke(new Point((int)x,(int)y),b[i])==true){
+		if(Colisiones.JugadorBloke(new Point((int)x-(width/height),(int)y),b[i])==true){
 			izquierda=false;
 
 		}
@@ -50,12 +52,12 @@ public class Jugador extends Rectangle{
 			derecha=false;
 		}
 		//colusuib arriba
-		if(Colisiones.JugadorBloke(new Point((int)x,(int)y+(int)Bloke.getBloketamaño()),b[i])==true){
+		if(Colisiones.JugadorBloke(new Point((int)x+20,(int)y+(int) Bloke.getBloketamaño()),b[i])==true||Colisiones.JugadorBloke(new Point((int)x,(int)y+(int) Bloke.getBloketamaño()),b[i])==true){
 			abajo=false;
 		}
 		
 		//colision debajo
-		if(Colisiones.JugadorBloke(new Point((int)x,(int)y),b[i])==true){
+		if(Colisiones.JugadorBloke(new Point((int)x,(int)y-(width/height)),b[i])==true||Colisiones.JugadorBloke(new Point((int)x+(int)Bloke.getBloketamaño(),(int)y-(width/height)),b[i])==true){
 			arriba=false;
 			
 		}
@@ -84,16 +86,22 @@ public class Jugador extends Rectangle{
 	  if(arriba==true) {
 		  y -= VAsalto;
 		  VAsalto -= .1;
-		  
+
 		  if(VAsalto <= 0) {
+
 			  VAsalto=Vsalto;
-			  arriba=false;
-			  abajo=true;
+
+			 abajo=true;
+			 System.out.println(abajo);
+
 		  }
 		  //System.out.println("arriba");
 		  }
-	derecha=false;
-	izquierda=false;
+	  if(abajo==false){
+		  VAcaida = .1;
+	  }
+	  abajo=true;
+
  }
  public void draw(Graphics g){
 	 g.setColor(Color.BLACK);
@@ -101,7 +109,6 @@ public class Jugador extends Rectangle{
  }
 
 public void keyPressed(int j) {
-	System.out.println("pressed");
 	
 
 	 if(j== KeyEvent.VK_D) derecha=true;
@@ -109,13 +116,13 @@ public void keyPressed(int j) {
 	 if(j== KeyEvent.VK_S) abajo=true;
 	 if(j== KeyEvent.VK_W) arriba=true;
 }
-public void keyReleased(int j) {
-	System.out.println("released");
+public void keyReleased(int k) {
 	
- if(j== KeyEvent.VK_D) derecha=false;
- if(j== KeyEvent.VK_A) izquierda=false;
- if(j== KeyEvent.VK_S) abajo=false;
- if(j== KeyEvent.VK_W) arriba=false;
+ if(k== KeyEvent.VK_D) derecha=false;
+ if(k== KeyEvent.VK_A) izquierda=false;
+ //if(k== KeyEvent.VK_S) abajo=false;
+ if(k== KeyEvent.VK_W) arriba=false;
+	
 	
 }
 

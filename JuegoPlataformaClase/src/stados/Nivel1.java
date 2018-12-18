@@ -17,14 +17,12 @@ public class Nivel1 extends State{
 		jugador = new Jugador(20,20);
 		
 		b = new Bloke [3];
-		b[0] = new Bloke (500,150);
-		b[1] = new Bloke (20,260);
-		b[2]= new Bloke (800,250);
+		b[0] = new Bloke (500,300);
+		b[1] = new Bloke (450,250);
+		b[2]= new Bloke (400,200);
 	}
 	public void tick() {
-		//for(int i =0 ; i < b.length; i++){
-			//b[i].tick(b);
-	//}
+	
 		jugador.tick(b);		 
 	 }
 	 public void draw(Graphics g){
@@ -37,7 +35,7 @@ public class Nivel1 extends State{
 		 jugador.keyPressed(j);
 	 }
 	 public void keyReleased(int j) {
-		 jugador.keyPressed(j);
+		 jugador.keyReleased(j);
 	 }
 	
 }

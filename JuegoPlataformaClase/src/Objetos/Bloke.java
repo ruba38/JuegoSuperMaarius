@@ -12,7 +12,7 @@ public class Bloke extends Rectangle {
 		return BlokeTamaño/2.5d;
 	}
 		public void draw(Graphics g) {
-			g.fillRect(x, y, width, height);
+			g.drawRect(x, y, width, height);
 			
 		}
 
